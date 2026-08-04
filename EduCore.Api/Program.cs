@@ -2,6 +2,7 @@ using EduCore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using EduCore.Domain.Entities;
+using EduCore.Infrastructure.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,12 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>( options =>
 
 var app = builder.Build();
 
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+    await RoleSeeder.SeedRolesAsync(roleManager);
+}
 
 if (app.Environment.IsDevelopment())
 {
