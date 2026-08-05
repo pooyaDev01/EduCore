@@ -34,6 +34,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>( options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAuthentication(options =>
 {
