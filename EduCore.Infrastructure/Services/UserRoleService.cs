@@ -4,16 +4,20 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace EduCore.Infrastructure.Services;
 
 public class UserRoleService : IUserRoleService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-    public UserRoleService(UserManager<ApplicationUser> userManager)
+    public UserRoleService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<bool> AssignRoleAsync(int userId, string role)
@@ -25,16 +29,28 @@ public class UserRoleService : IUserRoleService
             return false;
         }
 
-        var roleExists = await _userManager.IsInRoleAsync(user, role);
+        var roleExists = await _roleManager.RoleExistsAsync(role);
 
-        if (roleExists)
+        if (!roleExists)
         {
-            return true;
+            return false;
         }
 
-        var result = await _userManager.AddToRoleAsync(user, role);
+        var currentRole = await _userManager.GetRolesAsync(user);
 
-        return result.Succeeded;
+        if (currentRole.Any())
+        {
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRole);
+
+            if(!removeResult.Succeeded)
+            {
+                return false;
+            }
+        }
+
+        var addResult = await _userManager.AddToRoleAsync(user, role);
+
+        return addResult.Succeeded;
     }
 }
 
