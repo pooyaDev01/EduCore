@@ -18,16 +18,16 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("users/{userid}/role")]
-    public async Task<IActionResult> AssignRole(int userid,[FromForm] string role)
+    public async Task<IActionResult> AssignRoleAsync(int userid,[FromForm] string role)
     {
         var result = await _userRoleService.AssignRoleAsync(userid, role);
 
         if (!result)
         {
-            return BadRequest("Could not assign role");
+            return BadRequest("Could not assign role.");
         }
 
-        return Ok("Role assigned successfully");
+        return Ok("Role changed successfully.");
     }
 }
 
