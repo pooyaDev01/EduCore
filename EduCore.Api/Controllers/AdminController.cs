@@ -1,4 +1,5 @@
-﻿using EduCore.Application.Interfaces;
+﻿using EduCore.Application.DTOs.Admin;
+using EduCore.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,14 @@ public class AdminController : ControllerBase
         }
 
         return Ok("Role changed successfully.");
+    }
+
+    [HttpGet("users")]
+    public async Task<ActionResult<List<UserDto>>> GetUsersAsync()
+    {
+        var result = await _userRoleService.GetUsersAsync();
+
+        return Ok(result);
     }
 }
 

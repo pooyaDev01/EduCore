@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using EduCore.Application.DTOs.Admin;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduCore.Infrastructure.Services;
 
@@ -51,6 +53,28 @@ public class UserRoleService : IUserRoleService
         var addResult = await _userManager.AddToRoleAsync(user, role);
 
         return addResult.Succeeded;
+    }
+
+    public async Task<IEnumerable<UserDto>> GetUsersAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+
+        var result = new List<UserDto>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            result.Add(new UserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Roles = roles
+            });
+        }
+
+        return result;
     }
 }
 
