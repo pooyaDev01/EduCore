@@ -113,36 +113,38 @@ Examples include:
 - [x] Role seeding
 - [x] Basic authorization
 - [x] Role-Based Authorization
-- [ ] Complete Admin role management
-- [ ] Security review and authentication finalization
+- [x] Complete Admin role management
+- [x] Security review and authentication finalization
 
 ---
 
-## Phase 2 – Test-First Development 🧪
+## Phase 2 – Feature Development & Testing 🧪
 
-Future features will be developed using a Test-First approach:
+The core features of EduCore will first be implemented and manually tested using Swagger and Postman.
 
 ```text
-Write Test
-    ↓
-Test Fails 🔴
-    ↓
-Implement Feature
-    ↓
-Test Passes 🟢
-    ↓
-Refactor 🔵
+Design & Implementation
+        ↓
+Manual API Testing
+        ↓
+Feature Completion
+        ↓
+Next Feature
 ```
 
-Planned testing tools and practices:
+After the core features and MVP are completed, automated tests will be added to cover important business logic and application behavior.
+
+### Planned Testing Tools & Practices
 
 - xUnit
 - Moq
 - Unit Testing
 - Integration Testing
-- Test-Driven Development (TDD) principles
+- Test Cases for important scenarios
 
 Dependencies will be mocked where appropriate, while the actual business logic being tested will remain real.
+
+> The project currently prioritizes completing the core system and MVP first. Automated testing will be added afterward to improve reliability, maintainability, and confidence in the application's behavior.
 
 ---
 
