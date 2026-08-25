@@ -9,5 +9,6 @@ public interface IUserRoleService
 {
     Task<bool> AssignRoleAsync(int userId, string role);
     Task<IEnumerable<UserDto>> GetUsersAsync();
+    Task<UserDto?> GetUserByIdAsync(int userId);
 }
 

@@ -55,6 +55,28 @@ public class UserRoleService : IUserRoleService
         return addResult.Succeeded;
     }
 
+    public async Task<UserDto?> GetUserByIdAsync(int userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+
+        if(user is null)
+        {
+            return null;
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+
+        
+        return (new UserDto
+        {
+            Id = user.Id,
+            UserName = user.UserName!,
+            Email = user.Email!,
+            Roles = roles
+        });
+        
+    }
+
     public async Task<IEnumerable<UserDto>> GetUsersAsync()
     {
         var users = await _userManager.Users.ToListAsync();
@@ -68,8 +90,8 @@ public class UserRoleService : IUserRoleService
             result.Add(new UserDto
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
+                UserName = user.UserName!,
+                Email = user.Email!,
                 Roles = roles
             });
         }

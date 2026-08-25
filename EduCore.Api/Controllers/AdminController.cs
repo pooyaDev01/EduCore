@@ -38,5 +38,21 @@ public class AdminController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("users/{id}")]
+    public async Task<ActionResult<UserDto>> GetUserByIdAsync(int id)
+    {
+        var user = await _userRoleService.GetUserByIdAsync(id);
+
+        if(user == null)
+        {
+            return NotFound();
+        }
+
+        else
+        {
+            return Ok(user);
+        }
+    }
 }
 
