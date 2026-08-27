@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using EduCore.Domain.Entities;
+using System.Reflection;
 
 namespace EduCore.Infrastructure.Data;
 
@@ -15,25 +16,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
 
-        base.OnModelCreating(builder);
-
-        builder.Entity<ApplicationUser>().ToTable("AspNetUsers", "identity");
-
-        builder.Entity<ApplicationRole>().ToTable("AspNetRoles", "identity");
-
-        builder.Entity<IdentityUserRole<int>>().ToTable("AspNetUserRoles", "identity");
-
-        builder.Entity<IdentityUserClaim<int>>().ToTable("AspNetUserClaims", "identity");
-
-        builder.Entity<IdentityUserLogin<int>>().ToTable("AspNetUserLogins", "identity");
-
-        builder.Entity<IdentityRoleClaim<int>>().ToTable("AspNetRoleClaims", "identity");
-
-        builder.Entity<IdentityUserToken<int>>().ToTable("AspNetUserTokens", "identity");
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); 
 
     }
+
+    public DbSet<Course> Courses { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<CourseTeacher> CourseTeachers { get; set; }
 }
 

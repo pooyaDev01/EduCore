@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EduCore.Domain.Entities;
+namespace EduCore.Domain.Common;
 
 public abstract class BaseEntity
 {
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 }
-
